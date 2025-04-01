@@ -1,27 +1,30 @@
 import express from 'express';
-import pkg from 'pg';  // Import pg as a default import
-const { Pool } = pkg;  // Destructure Pool from pg
-import cors from 'cors';  // To enable CORS for React-Backend communication
+import pkg from 'pg';
+const { Pool } = pkg;
+import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import client from 'prom-client';
 
 const app = express();
 const port = 5000;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const collectDefaultMetrics = client.collectDefaultMetrics;
+collectDefaultMetrics()
 
-// Set up CORS (to allow requests from your React frontend)
+
 app.use(cors());
-app.use(express.json());  // To parse JSON data in the request body
+app.use(express.json());
 
-// Set up PostgreSQL client connection pool
+//PostgreSQL client connection pool
 const pool = new Pool({
-  user: 'postgres',           // Replace with your PostgreSQL username
-  host: '::1',              // Replace with your PostgreSQL host (use IP or URL if hosted remotely)
-  database: 'Comics Critique',        // Replace with your database name
-  password: 'Merrimack00!',   // Replace with your PostgreSQL password
-  port: 5432,                     // Default PostgreSQL port
+  user: 'postgres',
+  host: '::1', 
+  database: 'Comics Critique',
+  password: 'Merrimack00!',
+  port: 5432,
 });
 
 app.use('/images', express.static(path.join(__dirname, 'public/images')));
@@ -398,6 +401,27 @@ app.post('/api/lists', async (req, res) => {
     console.error('Error creating list:', error);
     res.status(500).send('Internal Server Error');
   }
+});
+
+// Allows writing to Prometheus
+const httpRequestDuration = new client.Histogram({
+  name: 'http_request_duration_seconds',
+  help: 'Duration of HTTP requests in seconds',
+  labelNames: ['method', 'route', 'status'],
+});
+
+app.use((req, res, next) => {
+  const end = httpRequestDuration.startTimer();
+  res.on('finish', () => {
+    end({ method: req.method, route: req.path, status: res.statusCode });
+  });
+  next();
+});
+
+// Expose metrics at /metrics endpoint
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', client.register.contentType);
+  res.send(await client.register.metrics());
 });
 
 
