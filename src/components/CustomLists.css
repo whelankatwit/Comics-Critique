@@ -1,0 +1,49 @@
+.list-comics {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.list-comic-item {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}
+
+.list-comic-item:last-child {
+  border-bottom: none;
+}
+
+.list-comic-cover {
+  width: 50px;
+  height: 75px;
+  object-fit: cover;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.hover-shadow {
+  transition: all 0.3s ease;
+}
+
+.hover-shadow:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1) !important;
+}
+
+/* Custom scrollbar for the comics list */
+.list-comics::-webkit-scrollbar {
+  width: 6px;
+}
+
+.list-comics::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.list-comics::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.list-comics::-webkit-scrollbar-thumb:hover {
+  background: #555;
+} 

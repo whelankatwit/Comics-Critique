@@ -1,0 +1,90 @@
+.comic-cover {
+  height: 300px;
+  object-fit: contain;
+  background-color: #f8f9fa;
+  padding: 1rem;
+  transition: transform 0.3s ease;
+}
+
+.card {
+  transition: all 0.3s ease;
+  border: none;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+}
+
+.card:hover .comic-cover {
+  transform: scale(1.05);
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #2c3e50;
+}
+
+.comic-details {
+  font-size: 0.9rem;
+}
+
+.comic-details p {
+  margin-bottom: 0.5rem;
+}
+
+.btn-primary {
+  background-color: #3498db;
+  border-color: #3498db;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background-color: #2980b9;
+  border-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+.alert-info {
+  background-color: #f8f9fa;
+  border-color: #e9ecef;
+  color: #495057;
+}
+
+.synopsis {
+  border-top: 1px solid #e9ecef;
+  padding-top: 1rem;
+}
+
+.synopsis-text {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #495057;
+  margin-top: 0.5rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .comic-cover {
+    height: 250px;
+  }
+  
+  .card-title {
+    font-size: 1.1rem;
+  }
+}
+
+/* Loading spinner customization */
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+} 
